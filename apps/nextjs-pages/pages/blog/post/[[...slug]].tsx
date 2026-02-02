@@ -1,10 +1,9 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import {
   PageViewer,
   cleanPage,
   fetchPage,
-  fetchPages,
   renderJsonLd,
   renderMeta,
   types,
@@ -16,6 +15,7 @@ import ErrorNoFooter from '../../../components/errorNoFooter'
 import ErrorNoHeader from '../../../components/errorNoHeader'
 import ErrorNoKeys from '../../../components/errorNoKeys'
 import Layout from '../../../components/layout'
+import { AB_TEST_VARIANT_HEADER } from '../../../middleware'
 import config from '../../../react-bricks/config'
 
 interface PageProps {
@@ -80,7 +80,7 @@ h3 + p {
   )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   let errorNoKeys: boolean = false
   let errorPage: boolean = false
   let errorHeader: boolean = false
@@ -103,20 +103,28 @@ export const getStaticProps: GetStaticProps = async (context) => {
     cleanSlug = slug.join('/')
   }
 
+  const locale = context.locale || 'en'
+
+  const variantName =
+    (context.req.headers[AB_TEST_VARIANT_HEADER] as string) || undefined
+
   const [page, header, footer] = await Promise.all([
-    fetchPage({ slug: cleanSlug, language: context.locale, config }).catch(
-      () => {
-        errorPage = true
-        return {}
-      }
-    ),
-    fetchPage({ slug: 'header', language: context.locale, config })
+    fetchPage({
+      slug: cleanSlug,
+      language: locale,
+      variantName,
+      config,
+    }).catch(() => {
+      errorPage = true
+      return {}
+    }),
+    fetchPage({ slug: 'header', language: locale, config })
       .then(({ author, ...page }) => page)
       .catch(() => {
         errorHeader = true
         return {}
       }),
-    fetchPage({ slug: 'footer', language: context.locale, config })
+    fetchPage({ slug: 'footer', language: locale, config })
       .then(({ author, ...page }) => page)
       .catch(() => {
         errorFooter = true
@@ -135,36 +143,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       errorFooter,
     },
   }
-}
-
-export const getStaticPaths: GetStaticPaths = async (context) => {
-  if (!config.apiKey) {
-    return { paths: [], fallback: false }
-  }
-
-  const allPages = await fetchPages({
-    type: 'blog',
-    pageSize: 100,
-    sort: '-publishedAt',
-    config,
-  })
-
-  const paths = allPages
-    .map((page) =>
-      page.translations
-        .filter(
-          (translation) => context.locales!.indexOf(translation.language) > -1
-        )
-        .map((translation) => ({
-          params: {
-            slug: [...translation.slug.split('/')],
-          },
-          locale: translation.language,
-        }))
-    )
-    .flat()
-
-  return { paths, fallback: false }
 }
 
 export default Page

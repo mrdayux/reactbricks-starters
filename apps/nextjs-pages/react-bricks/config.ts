@@ -42,4 +42,7 @@ const config: types.ReactBricksConfig = {
   apiPrefix: 'staging',
 }
 
+// Enable only for Enterprise plans with the A/B testing module active.
+export const abTestingEnabled = true
+
 export default config
