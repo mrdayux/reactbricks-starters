@@ -123,6 +123,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }),
   ])
 
+  // When no A/B variant is active, allow CDN caching (SSG-like behavior)
+  if (!variantName) {
+    context.res.setHeader(
+      'Cache-Control',
+      'public, s-maxage=3600, stale-while-revalidate=60'
+    )
+  }
+
   return {
     props: {
       page,
