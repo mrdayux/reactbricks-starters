@@ -12,7 +12,7 @@
   "dependencies": {
     "@reactbricks/reactbricks-ui": "workspace:*",
     "dayjs": "^1.11.13",
-    "next": "^15.5.9",
+    "next": "^15.5.11",
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-bricks": "5.0.0-alpha.7",

@@ -39,6 +39,7 @@ const config: types.ReactBricksConfig = {
   enablePreviewImage: true,
   enableDefaultEmbedBrick: true,
   //permissions,  Fine-grained permissions for enterprise plans
+  apiPrefix: 'staging',
 }
 
 export default config
