@@ -85,5 +85,5 @@ All packages use **Tailwind CSS v4** with `classnames` for conditional class com
 - **TypeScript strict mode** throughout; path alias `@/*` maps to `./` or `./src`
 - **ESLint v9** flat config format
 - **Prettier**: no semicolons, single quotes, trailing commas (es5), 80 char width
-- Next.js apps run on ports 3000 (app router) and 3001 (pages router)
+- Next.js apps run on ports 3000 (app router) and 3001 (pages router), Astro on 4321
 - No test suite exists in this repo
