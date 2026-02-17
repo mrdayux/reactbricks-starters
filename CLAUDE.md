@@ -76,6 +76,11 @@ Key files in each UI package:
 ### Shared styling
 
 All packages use **Tailwind CSS v4** with `classnames` for conditional class composition. The `reactbricks-ui-tailwind-config` package provides shared CSS variables and the Nunito Sans font, imported by all UI packages.
+The code should be written for readability and ease of understanding, with clear naming conventions and modular organization.
+
+### Notes
+Don't add the Claude user as a collaborator on GitHub or share any private repository links. All interactions should be through this file and the public codebase.
+Don't add "Co-Authored-By: Claude Opus 4.6 to any commit messages. This is not a real person and should not be credited as a co-author in git history.
 
 ## Key Technical Details
 
