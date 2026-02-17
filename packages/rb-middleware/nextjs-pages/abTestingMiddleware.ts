@@ -7,16 +7,12 @@ import {
   setAbTestingCookie,
 } from '../lib/abTesting'
 
-export const AB_TEST_VARIANT_HEADER = 'x-rb-ab-variant'
-
 interface CreateAbTestingMiddlewareOpts {
   config: unknown
   NextResponse: any
 }
 
-export function createAbTestingMiddleware(
-  opts: CreateAbTestingMiddlewareOpts
-) {
+export function createAbTestingMiddleware(opts: CreateAbTestingMiddlewareOpts) {
   return async function middleware(request: any) {
     const { pathname } = request.nextUrl
 
@@ -57,11 +53,7 @@ export function createAbTestingMiddleware(
     )
 
     if (existingVariant) {
-      const requestHeaders = new Headers(request.headers)
-      requestHeaders.set(AB_TEST_VARIANT_HEADER, existingVariant.name)
-      return opts.NextResponse.next({
-        request: { headers: requestHeaders },
-      })
+      return opts.NextResponse.next()
     }
 
     const selectedVariant = selectVariant(page.variants)
@@ -70,19 +62,14 @@ export function createAbTestingMiddleware(
       return opts.NextResponse.next()
     }
 
-    const requestHeaders = new Headers(request.headers)
-    requestHeaders.set(AB_TEST_VARIANT_HEADER, selectedVariant.name)
-    const response = opts.NextResponse.next({
-      request: { headers: requestHeaders },
-    })
+    const response = opts.NextResponse.next()
 
     setAbTestingCookie({
       slug,
       locale,
       variantName: selectedVariant.name,
       cookieStore: response.cookies,
-      variantUnpublishingDate:
-        selectedVariant.scheduledForUnpublishingOn,
+      variantUnpublishingDate: selectedVariant.scheduledForUnpublishingOn,
     })
 
     return response

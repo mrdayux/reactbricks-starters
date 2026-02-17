@@ -15,7 +15,7 @@ import ErrorNoFooter from '../../../components/errorNoFooter'
 import ErrorNoHeader from '../../../components/errorNoHeader'
 import ErrorNoKeys from '../../../components/errorNoKeys'
 import Layout from '../../../components/layout'
-import { AB_TEST_VARIANT_HEADER } from '../../../middleware'
+import { getAbTestingCookieFromReq } from '@reactbricks/rb-middleware/lib/abTesting'
 import config from '../../../react-bricks/config'
 
 interface PageProps {
@@ -105,8 +105,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const locale = context.locale || 'en'
 
-  const variantName =
-    (context.req.headers[AB_TEST_VARIANT_HEADER] as string) || undefined
+  const variantName = getAbTestingCookieFromReq({
+    slug: cleanSlug,
+    locale,
+    cookies: context.req.cookies,
+  })
 
   const [page, header, footer] = await Promise.all([
     fetchPage({
