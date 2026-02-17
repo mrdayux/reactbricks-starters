@@ -62,7 +62,21 @@ export function createAbTestingMiddleware(opts: CreateAbTestingMiddlewareOpts) {
       return opts.NextResponse.next()
     }
 
-    const response = opts.NextResponse.next()
+    // Set cookie on the request so getServerSideProps can read it
+    // via context.req.cookies on this same request
+    setAbTestingCookie({
+      slug,
+      locale,
+      variantName: selectedVariant.name,
+      cookieStore: request.cookies,
+      variantUnpublishingDate: selectedVariant.scheduledForUnpublishingOn,
+    })
+
+    // Forward the modified request headers (including the new cookie)
+    // and also set the cookie on the response to persist it to the browser
+    const response = opts.NextResponse.next({
+      request: { headers: request.headers },
+    })
 
     setAbTestingCookie({
       slug,
