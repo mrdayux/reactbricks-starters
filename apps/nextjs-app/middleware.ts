@@ -1,7 +1,18 @@
-import { chain } from '@reactbricks/rb-middleware/nextjs-app'
-import { withI18nMiddleware } from '@/middlewares/i18nMiddleware'
-import { withAbTestingMiddleware } from '@/middlewares/abTestingMiddleware'
-import { abTestingEnabled } from '@/react-bricks/config'
+import { NextResponse } from 'next/server'
+import {
+  chain,
+  createAbTestingMiddleware,
+  createI18nMiddleware,
+} from '@reactbricks/rb-middleware/nextjs-app'
+
+import { i18n } from '@/i18n-config'
+import rbConfig, { abTestingEnabled } from '@/react-bricks/config'
+
+const withAbTestingMiddleware = createAbTestingMiddleware({
+  i18n,
+  config: rbConfig,
+})
+const withI18nMiddleware = createI18nMiddleware({ i18n, NextResponse })
 
 const middleware = abTestingEnabled
   ? chain([withAbTestingMiddleware, withI18nMiddleware])

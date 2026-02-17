@@ -14,7 +14,7 @@ import { ClickToEdit } from 'react-bricks/rsc/client'
 
 import ErrorNoKeys from '@/components/errorNoKeys'
 import ErrorNoPage from '@/components/errorNoPage'
-import { getAbTestingCookie } from '@/lib/abTesting'
+import { getAbTestingCookie } from '@reactbricks/rb-middleware/lib/abTesting'
 import config from '@/react-bricks/config'
 
 const getData = async (
