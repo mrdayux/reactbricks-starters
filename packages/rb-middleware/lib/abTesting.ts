@@ -1,10 +1,15 @@
-import type { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
+export interface CookieReader {
+  get(
+    name: string
+  ): { value: string | undefined } | string | undefined | null
+}
+
+export interface CookieWriter {
+  set(name: string, value: string, options?: Record<string, unknown>): void
+  delete(name: string): void
+}
 
 export const DEFAULT_AB_TESTING_COOKIE_TTL = 60 * 60 * 24 * 2 // 2 days
-
-type ReadonlyCookies = NextRequest['cookies']
-type ResponseCookies = NextResponse['cookies']
 
 type Variant = {
   name: string
@@ -13,6 +18,10 @@ type Variant = {
 
 const COOKIE_NAME_PREFIX = 'rb_ab_test'
 
+function getCookieName(slug: string, locale: string): string {
+  return `${COOKIE_NAME_PREFIX}_${slug}_${locale}`
+}
+
 export function getAbTestingCookie({
   slug,
   locale,
@@ -20,10 +29,12 @@ export function getAbTestingCookie({
 }: {
   slug: string
   locale: string
-  cookieStore: ReadonlyCookies
-}) {
-  const cookieName = `${COOKIE_NAME_PREFIX}_${slug}_${locale}`
-  return cookieStore.get(cookieName)?.value
+  cookieStore: CookieReader
+}): string | undefined {
+  const result = cookieStore.get(getCookieName(slug, locale))
+  if (result === null || result === undefined) return undefined
+  if (typeof result === 'string') return result
+  return result.value
 }
 
 export function setAbTestingCookie({
@@ -36,18 +47,19 @@ export function setAbTestingCookie({
   slug: string
   locale: string
   variantName: string
-  cookieStore: ResponseCookies
+  cookieStore: CookieWriter
   variantUnpublishingDate?: string
 }) {
-  const cookieName = `${COOKIE_NAME_PREFIX}_${slug}_${locale}`
   const maxAge = variantUnpublishingDate
     ? Math.max(
-        Math.floor((Date.parse(variantUnpublishingDate) - Date.now()) / 1000),
+        Math.floor(
+          (Date.parse(variantUnpublishingDate) - Date.now()) / 1000
+        ),
         0
       )
     : DEFAULT_AB_TESTING_COOKIE_TTL
 
-  cookieStore.set(cookieName, variantName, {
+  cookieStore.set(getCookieName(slug, locale), variantName, {
     path: '/',
     httpOnly: true,
     maxAge,
@@ -63,10 +75,9 @@ export function removeAbTestingCookie({
 }: {
   slug: string
   locale: string
-  cookieStore: ResponseCookies
+  cookieStore: CookieWriter
 }) {
-  const cookieName = `${COOKIE_NAME_PREFIX}_${slug}_${locale}`
-  cookieStore.delete(cookieName)
+  cookieStore.delete(getCookieName(slug, locale))
 }
 
 export function selectVariant<T extends Variant>(variants: T[]): T | null {
@@ -90,7 +101,7 @@ export function getAbTestingCookieFromReq({
   slug: string
   locale: string
   cookies: Partial<{ [key: string]: string }>
-}) {
-  const cookieName = `${COOKIE_NAME_PREFIX}_${slug}_${locale}`
+}): string | undefined {
+  const cookieName = getCookieName(slug, locale)
   return cookies[cookieName]
 }

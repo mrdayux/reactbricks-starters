@@ -36,6 +36,9 @@ importers:
       '@astrojs/vercel':
         specifier: ^9.0.4
         version: 9.0.4(astro@5.17.0(@types/node@22.19.7)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.57.0)(typescript@5.9.3))(next@15.5.11(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(rollup@4.57.0)
+      '@reactbricks/rb-middleware':
+        specifier: workspace:*
+        version: link:../../packages/rb-middleware
       '@reactbricks/reactbricks-ui-astro':
         specifier: workspace:*
         version: link:../../packages/reactbricks-ui/astro
@@ -76,6 +79,9 @@ importers:
 
   apps/nextjs-app:
     dependencies:
+      '@reactbricks/rb-middleware':
+        specifier: workspace:*
+        version: link:../../packages/rb-middleware
       '@reactbricks/reactbricks-ui-rsc':
         specifier: workspace:*
         version: link:../../packages/reactbricks-ui/nextjs-app
@@ -128,6 +134,9 @@ importers:
 
   apps/nextjs-pages:
     dependencies:
+      '@reactbricks/rb-middleware':
+        specifier: workspace:*
+        version: link:../../packages/rb-middleware
       '@reactbricks/reactbricks-ui':
         specifier: workspace:*
         version: link:../../packages/reactbricks-ui/nextjs-pages
@@ -309,6 +318,16 @@ importers:
       tailwindcss:
         specifier: ^4.0.14
         version: 4.1.18
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  packages/rb-middleware:
+    dependencies:
+      react-bricks:
+        specifier: 5.0.0-alpha.7
+        version: 5.0.0-alpha.7(@babel/core@7.28.6)(@types/react@19.0.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.1.18)
+    devDependencies:
       typescript:
         specifier: ^5
         version: 5.9.3

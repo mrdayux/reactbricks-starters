@@ -1,4 +1,4 @@
-import { chain } from '@/middlewares/chain'
+import { chain } from '@reactbricks/rb-middleware/nextjs-app'
 import { withI18nMiddleware } from '@/middlewares/i18nMiddleware'
 import { withAbTestingMiddleware } from '@/middlewares/abTestingMiddleware'
 import { abTestingEnabled } from '@/react-bricks/config'

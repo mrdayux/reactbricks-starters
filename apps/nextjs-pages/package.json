@@ -10,6 +10,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@reactbricks/rb-middleware": "workspace:*",
     "@reactbricks/reactbricks-ui": "workspace:*",
     "dayjs": "^1.11.13",
     "next": "^15.5.11",

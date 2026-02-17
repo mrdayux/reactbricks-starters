@@ -1,0 +1,47 @@
+{
+  "name": "@reactbricks/rb-middleware",
+  "license": "UNLICENSED",
+  "authors": ["Dario Ronzoni <dario@reactbricks.com>"],
+  "version": "0.1.0-alpha.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib",
+    "astro",
+    "nextjs-app",
+    "nextjs-pages",
+    "index.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "import": "./index.ts"
+    },
+    "./lib/abTesting": {
+      "types": "./lib/abTesting.ts",
+      "import": "./lib/abTesting.ts"
+    },
+    "./astro": {
+      "types": "./astro/index.ts",
+      "import": "./astro/index.ts"
+    },
+    "./nextjs-app": {
+      "types": "./nextjs-app/index.ts",
+      "import": "./nextjs-app/index.ts"
+    },
+    "./nextjs-pages": {
+      "types": "./nextjs-pages/index.ts",
+      "import": "./nextjs-pages/index.ts"
+    }
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react-bricks": "5.0.0-alpha.7"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}
