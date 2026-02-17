@@ -1,3 +1,12 @@
+interface ThemeManager {
+  getTheme(): string
+  setTheme(theme: string): void
+}
+
+interface Window {
+  theme: ThemeManager
+}
+
 interface ImportMetaEnv {
   readonly API_KEY: string
   readonly PUBLIC_APP_ID: string

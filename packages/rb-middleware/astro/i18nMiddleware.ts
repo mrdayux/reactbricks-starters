@@ -1,8 +1,8 @@
 interface MiddlewareContext {
   url: URL
-  locals: Record<string, unknown>
-  rewrite(path: string): Response
-  redirect(path: string): Response
+  locals: any
+  rewrite(path: string): Response | Promise<Response>
+  redirect(path: string): Response | Promise<Response>
 }
 
 type MiddlewareNext = () => Promise<Response> | Response

@@ -27,7 +27,7 @@ import Container from '../../shared/components/Container'
 import Section from '../../shared/components/Section'
 import {
   createSubmissionError,
-  FormSubmissionError,
+  type FormSubmissionError,
 } from '../../shared/FormNewsletter/NewsletterUtils'
 
 const NewsletterSubscribeForm: React.FC<{

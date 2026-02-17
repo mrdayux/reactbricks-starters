@@ -26,7 +26,7 @@ import blockNames from '../../blockNames'
 import { gradients, textColors } from '../../colors'
 import {
   createSubmissionError,
-  FormSubmissionError,
+  type FormSubmissionError,
 } from '../../shared/FormNewsletter/NewsletterUtils'
 import Container from '../../shared/components/Container'
 import Section from '../../shared/components/Section'

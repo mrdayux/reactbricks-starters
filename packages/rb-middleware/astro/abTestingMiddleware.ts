@@ -14,7 +14,7 @@ interface MiddlewareContext {
     set(name: string, value: string, options?: Record<string, unknown>): void
     delete(name: string): void
   }
-  locals: Record<string, unknown>
+  locals: any
 }
 
 type MiddlewareNext = () => Promise<Response> | Response

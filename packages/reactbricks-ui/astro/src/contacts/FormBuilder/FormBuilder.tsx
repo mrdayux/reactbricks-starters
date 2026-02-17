@@ -12,10 +12,10 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { useForm } from 'react-hook-form'
 import blockNames from '../../blockNames'
 import { buttonColors } from '../../colors'
-import { LayoutProps } from '../../LayoutSideProps'
+import type { LayoutProps } from '../../LayoutSideProps'
 import {
   createSubmissionError,
-  FormSubmissionError,
+  type FormSubmissionError,
 } from '../../shared/FormNewsletter/NewsletterUtils'
 
 export interface FormBuilderProps extends LayoutProps {
